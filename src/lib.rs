@@ -4,14 +4,22 @@ use std::path::{Path, PathBuf};
 use std::time::Duration;
 use tokio::time::sleep;
 
-fn read_dir(dir: &Path) -> Vec<PathBuf> {
+/// # read_dir
+/// Reads a folder looking for files
+///
+/// # args:
+/// *`dir` - Path to the directory to search
+///
+/// # returns:
+/// A Vec with path buffers.
+fn read_input_dir(dir: &Path) -> Vec<PathBuf> {
     // Create Vec for return
     let mut ret_paths: Vec<PathBuf> = Vec::new();
 
     // Create iterator on directory
     let it = fs::read_dir(dir).unwrap();
 
-    // Iterate entries
+    // Iterate entries returning files
     for entry in it {
         if entry.as_ref().unwrap().path().is_dir() == false {
             ret_paths.push(entry.unwrap().path());
@@ -20,7 +28,14 @@ fn read_dir(dir: &Path) -> Vec<PathBuf> {
     ret_paths
 }
 
+/// # dir_setup
+/// Checking for proper dirs structure. Creates dirs if missing.
+///
+/// # args:
+/// *`inp_path_string` - Input path string
+/// *`out_path_string` - Output path string
 fn dir_setup(inp_path_string: &str, out_path_string: &str, move_path_string: &str) {
+
     let mut dirs: Vec<PathBuf> = Vec::new();
 
     // Create iterator on directory
@@ -50,13 +65,21 @@ fn dir_setup(inp_path_string: &str, out_path_string: &str, move_path_string: &st
     };
 }
 
-// Checks for new files in input folder
+/// # listener
+/// Driver code. First does dir setup, then checks dirs for new files to process.
+///
+/// # args:
+/// *`run_func` - Function to run on files in input folder.
+/// *`sleep_time` - Sleep time between listen loops. 10ms is a good starting point.
+/// *`inp_path_string` - Path to input files.
+/// *`out_path_string` - Path to output files.
+/// *`move_path_string` - Path to move processed input files to. Contained within out_path.
 pub async fn listener(run_func: &dyn Fn(PathBuf, PathBuf, PathBuf), sleep_time: &u64, inp_path_string: &str,
                       out_path_string: &str, move_path_string: &str) {
     dir_setup(inp_path_string,out_path_string,move_path_string);
     loop {
         // read new files
-        let new_file_paths = read_dir(&PathBuf::from(inp_path_string));
+        let new_file_paths = read_input_dir(&PathBuf::from(inp_path_string));
 
         // for each new file
         for file in &new_file_paths {
