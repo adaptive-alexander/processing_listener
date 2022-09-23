@@ -91,6 +91,8 @@ pub async fn dir_listener(
         // read new files
         let new_file_paths = read_input_dir(&PathBuf::from(inp_path_string));
 
+        sleep(Duration::from_millis(200)).await;
+
         // for each new file
         for file in &new_file_paths {
             let process_file = PathBuf::from(file);
@@ -102,6 +104,7 @@ pub async fn dir_listener(
 
             move_path.push(Path::new(move_path_string));
             move_path.push(file.file_name().unwrap());
+
 
             // process input file
             call_back(process_file, out_path, move_path);
