@@ -11,5 +11,5 @@ google-cloud-gax = "0.8.1"
 google-cloud-googleapis = "0.5.1"
 google-cloud-pubsub = "0.5.1"
 actix-web = "4.2.1"
-options = { path = "../options" }
+options = { git = "https://github.com/adaptive-alexander/options.git" }
 rayon = "1.5.3"
