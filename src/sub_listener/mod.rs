@@ -65,8 +65,8 @@ pub async fn sub_listener(
 
 
                 // Remove processed files
-                fs::remove_file(Path::new(r"./input/inp_file"));
-                fs::remove_file(Path::new(r"./output/out_file"));
+                fs::remove_file(Path::new(r"./input/inp_file")).await.unwrap();
+                fs::remove_file(Path::new(r"./output/out_file")).await.unwrap();
 
                 // Ack or Nack message.
                 message.ack().await.expect("Failed acknowledging message");
