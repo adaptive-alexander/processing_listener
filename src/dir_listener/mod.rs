@@ -34,7 +34,7 @@ fn read_input_dir(dir: &Path) -> Vec<PathBuf> {
 /// # args:
 /// *`inp_path_string` - Input path string
 /// *`out_path_string` - Output path string
-fn dir_setup(inp_path_string: &str, out_path_string: &str, move_path_string: &str) {
+pub fn dir_setup(inp_path_string: &str, out_path_string: &str, move_path_string: &str) {
     let mut dirs: Vec<PathBuf> = Vec::new();
 
     // Create iterator on directory
